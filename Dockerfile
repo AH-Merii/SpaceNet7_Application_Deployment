@@ -70,9 +70,8 @@ RUN git clone https://github.com/cosmiq/solaris.git && \
 
 ENV PATH /opt/conda/envs/solaris/bin:$PATH
 
-RUN cd solaris && pip install . &&\
-    # install various conda dependencies into the space_base environment
-    conda install -n solaris &&\
+RUN cd solaris && pip install . && \
+    source activate solaris && \
     # ensure solaris is activated
     conda activate solaris && \
     # Need imagecodecs for Planet files
@@ -86,10 +85,10 @@ RUN cd solaris && pip install . &&\
 
 WORKDIR /work
 COPY . /work/
-RUN chmod 777 src/model/util_scripts/train.sh
-RUN chmod 777 src/model/util_scripts/test.sh
-RUN chmod 777 src/model/util_scripts/download.sh
-RUN chmod 777 src/model/pretrained_model/download_model.py
+RUN chmod 777 src/model/util_scripts/train.sh && \
+    chmod 777 src/model/util_scripts/test.sh && \
+    chmod 777 src/model/util_scripts/download.sh && \
+    chmod 777 src/model/pretrained_model/download_model.py
 
 # open ports for jupyterlab and tensorboard
 EXPOSE 8888 6006
